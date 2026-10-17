@@ -1,32 +1,57 @@
-# React + TypeScript + Vite
+# NutricaAi — Sistema de Gestão Nutricional
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Sistema clínico completo para nutricionistas com autenticação segura, dashboard em tempo real, acompanhamento de pacientes e histórico de consultas.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🔒 Segurança e Variáveis de Ambiente
 
-## React Compiler
+As credenciais do banco e chaves de API **não** são versionadas no Git. Elas ficam salvas localmente em `.env.local` (ignorado pelo `.gitignore`) e devem ser configuradas nas variáveis de ambiente da plataforma de hospedagem (como **Vercel**).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+### Template de variáveis (`.env.example`):
+```env
+VITE_NEON_AUTH_URL=https://ep-fragrant-leaf-b6br2b5c.neonauth.c-2.sa-east-1.aws.neon.tech/neondb/auth
+VITE_NEON_PROJECT_ID=summer-cake-97999509
+VITE_NEON_DATABASE_URL=postgresql://usuario:senha@ep-fragrant-leaf-b6br2b5c-pooler.c-2.sa-east-1.aws.neon.tech/neondb?sslmode=require
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+---
+
+## 🚀 Como Fazer o Deploy no Vercel
+
+1. Acesse [vercel.com](https://vercel.com) e conecte sua conta do GitHub.
+2. Clique em **"Add New..."** > **"Project"**.
+3. Selecione o repositório `Isabela00123/Sistema_Nutrica`.
+4. Em **Framework Preset**, deixe como `Vite`.
+5. Em **Environment Variables**, adicione as três chaves:
+   - `VITE_NEON_AUTH_URL`
+   - `VITE_NEON_PROJECT_ID`
+   - `VITE_NEON_DATABASE_URL`
+6. Clique em **Deploy**.
+
+---
+
+## 💻 Como Rodar Localmente
+
+1. Clone o repositório:
+```bash
+git clone https://github.com/Isabela00123/Sistema_Nutrica.git
+cd Sistema_Nutrica
+```
+
+2. Instale as dependências:
+```bash
+npm install
+```
+
+3. Crie seu arquivo `.env.local`:
+```bash
+cp .env.example .env.local
+```
+Preencha o `.env.local` com a sua connection string real do Neon.
+
+4. Inicie o servidor:
+```bash
+npm run dev
+```
+O sistema estará disponível em `http://localhost:5173/`.
