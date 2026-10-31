@@ -1,0 +1,24 @@
+{
+  "name": "NutricaAi - Gestão Clínica Nutricional",
+  "short_name": "NutricaAi",
+  "description": "Sistema de gestão clínica inteligente para nutricionistas",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#059669",
+  "theme_color": "#059669",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/pwa-192x192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

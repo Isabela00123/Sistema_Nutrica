@@ -362,27 +362,27 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
   };
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen bg-slate-50/70 overflow-y-auto">
+    <div className="flex-1 flex flex-col min-h-screen bg-slate-50/70 dark:bg-slate-950 overflow-y-auto">
       {/* Top Header Bar */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-emerald-100/70 px-8 py-4 sticky top-0 z-20 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+      <header className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-emerald-100/70 dark:border-slate-800 px-4 sm:px-8 py-3.5 sm:py-4 sticky top-0 z-20 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
           <Button
             variant="outline"
             size="sm"
             onClick={onCancel}
-            className="border-emerald-200 text-emerald-800 hover:bg-emerald-50 cursor-pointer gap-2"
+            className="border-emerald-200 dark:border-slate-700 text-emerald-800 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-slate-800 cursor-pointer gap-1 sm:gap-2 h-8 sm:h-9 px-2.5 sm:px-3 text-xs"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Voltar</span>
+            <span className="hidden sm:inline">Voltar</span>
           </Button>
-          <div>
-            <h1 className="text-xl font-bold text-slate-800 tracking-tight flex items-center gap-2">
-              <span>{isEditing ? 'Editar Paciente' : 'Novo Paciente'}</span>
-              <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-semibold border border-emerald-200/60">
-                {isEditing ? 'Atualizar Ficha' : 'Cadastro Clínico'}
+          <div className="min-w-0">
+            <h1 className="text-base sm:text-xl font-bold text-slate-800 dark:text-white tracking-tight flex items-center gap-1.5 sm:gap-2 truncate">
+              <span>{isEditing ? 'Editar' : 'Novo Paciente'}</span>
+              <span className="text-[10px] sm:text-xs px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 font-semibold border border-emerald-200/60 dark:border-emerald-800 shrink-0">
+                {isEditing ? 'Atualizar' : 'Cadastro'}
               </span>
             </h1>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5 truncate hidden sm:block">
               {isEditing
                 ? 'Atualize as informações do paciente nas 3 etapas'
                 : 'Preencha os dados organizados em 3 etapas'}
@@ -390,12 +390,12 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <Button
             variant="outline"
             size="sm"
             onClick={onCancel}
-            className="hidden sm:inline-flex border-slate-200 text-slate-600 hover:bg-slate-100"
+            className="hidden sm:inline-flex border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 h-8 sm:h-9 text-xs"
           >
             Cancelar
           </Button>
@@ -403,14 +403,14 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
             size="sm"
             onClick={() => handleSubmit()}
             disabled={submitting}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 font-semibold shadow-sm cursor-pointer"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white gap-1.5 sm:gap-2 font-semibold shadow-sm cursor-pointer h-8 sm:h-9 px-3 text-xs sm:text-sm"
           >
             {submitting ? (
               <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
             ) : (
               <>
                 <Save className="w-4 h-4" />
-                <span>{isEditing ? 'Salvar Alterações' : 'Salvar Paciente'}</span>
+                <span>Salvar</span>
               </>
             )}
           </Button>
@@ -421,60 +421,60 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
       <main className="p-6 md:p-8 max-w-4xl w-full mx-auto space-y-6">
         {/* Error notification */}
         {error && (
-          <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-800 text-sm flex items-center gap-3">
+          <div className="p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-800 text-rose-800 dark:text-rose-200 text-sm flex items-center gap-3">
             <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
         {/* Tab Navigation Controls */}
-        <div className="bg-white p-2 rounded-2xl border border-emerald-100 shadow-xs flex items-center justify-between gap-2">
+        <div className="bg-white dark:bg-slate-900 p-1.5 sm:p-2 rounded-2xl border border-emerald-100 dark:border-slate-800 shadow-xs flex items-center justify-between gap-1.5 sm:gap-2">
           <button
             type="button"
             onClick={() => setActiveTab('pessoal')}
-            className={`flex-1 flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+            className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
               activeTab === 'pessoal'
                 ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
-                : 'text-slate-600 hover:text-emerald-800 hover:bg-emerald-50/60'
+                : 'text-slate-600 dark:text-slate-300 hover:text-emerald-800 dark:hover:text-emerald-300 hover:bg-emerald-50/60 dark:hover:bg-slate-800'
             }`}
           >
-            <User className="w-4 h-4" />
-            <span>1. Pessoal</span>
+            <User className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0" />
+            <span className="truncate">1. Pessoal</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('clinico')}
-            className={`flex-1 flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+            className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
               activeTab === 'clinico'
                 ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
-                : 'text-slate-600 hover:text-emerald-800 hover:bg-emerald-50/60'
+                : 'text-slate-600 dark:text-slate-300 hover:text-emerald-800 dark:hover:text-emerald-300 hover:bg-emerald-50/60 dark:hover:bg-slate-800'
             }`}
           >
-            <HeartPulse className="w-4 h-4" />
-            <span>2. Clínico</span>
+            <HeartPulse className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0" />
+            <span className="truncate">2. Clínico</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('habitos')}
-            className={`flex-1 flex items-center justify-center gap-2.5 py-3 px-4 rounded-xl text-sm font-bold transition-all cursor-pointer ${
+            className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2.5 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
               activeTab === 'habitos'
                 ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
-                : 'text-slate-600 hover:text-emerald-800 hover:bg-emerald-50/60'
+                : 'text-slate-600 dark:text-slate-300 hover:text-emerald-800 dark:hover:text-emerald-300 hover:bg-emerald-50/60 dark:hover:bg-slate-800'
             }`}
           >
-            <Coffee className="w-4 h-4" />
-            <span>3. Hábitos</span>
+            <Coffee className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0" />
+            <span className="truncate">3. Hábitos</span>
           </button>
         </div>
 
         {/* Tab 1: Pessoal */}
         {activeTab === 'pessoal' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-emerald-100 shadow-xs space-y-6 animate-in fade-in duration-200">
-            <div className="border-b border-slate-100 pb-4">
-              <h2 className="text-lg font-bold text-slate-800">Dados Pessoais</h2>
-              <p className="text-xs text-slate-500">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-emerald-100 dark:border-slate-800 shadow-xs space-y-6 animate-in fade-in duration-200">
+            <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
+              <h2 className="text-lg font-bold text-slate-800 dark:text-white">Dados Pessoais</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Identificação e canais de contato com o paciente
               </p>
             </div>
@@ -482,7 +482,7 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {/* Nome Completo (Obrigatório) */}
               <div className="md:col-span-2 space-y-1.5 text-left">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1">
                   Nome Completo <span className="text-rose-500">*</span>
                 </label>
                 <input
@@ -490,7 +490,7 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
                   placeholder="Ex: Carlos Eduardo de Oliveira"
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
                   required
                 />
               </div>
@@ -498,11 +498,11 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
               {/* Data de Nascimento & Idade Calculada */}
               <div className="space-y-1.5 text-left">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                     Data de Nascimento
                   </label>
                   {calculatedAge !== null && (
-                    <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                    <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
                       {calculatedAge} anos
                     </span>
                   )}
@@ -511,13 +511,13 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
                   type="date"
                   value={dataNascimento}
                   onChange={(e) => setDataNascimento(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 text-slate-700"
+                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
                 />
               </div>
 
               {/* Sexo */}
               <div className="space-y-1.5 text-left">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                   Sexo
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -529,7 +529,7 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
                       className={`py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
                         sexo === s
                           ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                          : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+                          : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
                       }`}
                     >
                       {s}
@@ -540,7 +540,7 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
 
               {/* Telefone */}
               <div className="space-y-1.5 text-left">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                   Telefone
                 </label>
                 <input
@@ -548,13 +548,13 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
                   placeholder="(11) 3456-7890"
                   value={telefone}
                   onChange={(e) => setTelefone(formatPhoneNumber(e.target.value))}
-                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
                 />
               </div>
 
               {/* WhatsApp */}
               <div className="space-y-1.5 text-left">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                   WhatsApp
                 </label>
                 <input
@@ -562,13 +562,13 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
                   placeholder="(11) 98765-4321"
                   value={whatsapp}
                   onChange={(e) => setWhatsapp(formatPhoneNumber(e.target.value))}
-                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
                 />
               </div>
 
               {/* Email */}
               <div className="md:col-span-2 space-y-1.5 text-left">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                   E-mail
                 </label>
                 <input
@@ -576,12 +576,12 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
                   placeholder="paciente@exemplo.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
+                  className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
                 />
               </div>
             </div>
 
-            <div className="flex justify-end pt-4 border-t border-slate-100">
+            <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-slate-800">
               <Button
                 type="button"
                 onClick={() => setActiveTab('clinico')}
@@ -596,16 +596,16 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
 
         {/* Tab 2: Clínico */}
         {activeTab === 'clinico' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-emerald-100 shadow-xs space-y-6 animate-in fade-in duration-200">
-            <div className="border-b border-slate-100 pb-4">
-              <h2 className="text-lg font-bold text-slate-800">Avaliação Clínica e Antropométrica</h2>
-              <p className="text-xs text-slate-500">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-emerald-100 dark:border-slate-800 shadow-xs space-y-6 animate-in fade-in duration-200">
+            <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
+              <h2 className="text-lg font-bold text-slate-800 dark:text-white">Avaliação Clínica e Antropométrica</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Medidas iniciais, condições de saúde, restrições e objetivos
               </p>
             </div>
 
             {/* Antropometria & IMC */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 p-5 rounded-2xl bg-slate-50/70 border border-slate-200/80">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 p-5 rounded-2xl bg-slate-50/70 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700">
               {/* Peso em kg */}
               <div className="space-y-1.5 text-left">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-700">
@@ -1021,10 +1021,10 @@ export const NovoPacienteScreen: React.FC<NovoPacienteScreenProps> = ({
 
         {/* Tab 3: Hábitos */}
         {activeTab === 'habitos' && (
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-emerald-100 shadow-xs space-y-6 animate-in fade-in duration-200">
-            <div className="border-b border-slate-100 pb-4">
-              <h2 className="text-lg font-bold text-slate-800">Rotina diária e Estilo de Vida</h2>
-              <p className="text-xs text-slate-500">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-emerald-100 dark:border-slate-800 shadow-xs space-y-6 animate-in fade-in duration-200">
+            <div className="border-b border-slate-100 dark:border-slate-800 pb-4">
+              <h2 className="text-lg font-bold text-slate-800 dark:text-white">Rotina diária e Estilo de Vida</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Horários de sono, hidratação, refeições e atividade física
               </p>
             </div>

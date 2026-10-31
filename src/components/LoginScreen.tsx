@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useTheme } from '@/context/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Mail, Lock, AlertCircle, Sparkles, ArrowRight } from 'lucide-react';
+import { Mail, Lock, AlertCircle, Sparkles, ArrowRight, Sun, Moon } from 'lucide-react';
 
 interface LoginScreenProps {
   onNavigateRegister: () => void;
@@ -10,6 +11,7 @@ interface LoginScreenProps {
 
 export const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigateRegister }) => {
   const { login } = useAuth();
+  const { darkMode, toggleTheme } = useTheme();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -44,21 +46,33 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigateRegister }) 
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-emerald-50 via-teal-50/40 to-slate-50 relative overflow-hidden">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-emerald-50 via-teal-50/40 to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 relative overflow-hidden transition-colors duration-300">
       {/* Background soft ambient orbs */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-emerald-200/40 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-teal-200/30 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-emerald-200/40 dark:bg-emerald-950/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-teal-200/30 dark:bg-teal-950/20 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="w-full max-w-md bg-white/90 backdrop-blur-md rounded-2xl shadow-xl shadow-emerald-950/5 border border-emerald-100 p-8 z-10">
+      {/* Theme Toggle Button top-right */}
+      <div className="absolute top-6 right-6 z-20">
+        <button
+          type="button"
+          onClick={toggleTheme}
+          title={darkMode ? 'Modo claro' : 'Modo escuro'}
+          className="p-2.5 rounded-xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border border-emerald-100 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-emerald-600 dark:hover:text-emerald-400 shadow-sm transition-all cursor-pointer"
+        >
+          {darkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-emerald-600" />}
+        </button>
+      </div>
+
+      <div className="w-full max-w-md bg-white/90 dark:bg-slate-900/90 backdrop-blur-md rounded-2xl shadow-xl shadow-emerald-950/5 dark:shadow-black/40 border border-emerald-100 dark:border-slate-800 p-8 z-10 transition-colors">
         {/* Header & Logo */}
         <div className="flex flex-col items-center text-center mb-8">
           <div className="h-14 w-14 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-emerald-600/30 mb-3">
             <Sparkles className="w-7 h-7" />
           </div>
-          <h1 className="text-2xl font-bold tracking-tight text-emerald-950">
+          <h1 className="text-2xl font-bold tracking-tight text-emerald-950 dark:text-white">
             Sistema Nutrica
           </h1>
-          <p className="text-sm text-emerald-800/70 mt-1">
+          <p className="text-sm text-emerald-800/70 dark:text-emerald-400/80 mt-1">
             Gestão clínica inteligente para nutricionistas
           </p>
         </div>
@@ -74,7 +88,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigateRegister }) 
         {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5 text-left">
-            <label className="text-xs font-semibold uppercase tracking-wider text-emerald-900/70">
+            <label className="text-xs font-semibold uppercase tracking-wider text-emerald-900/70 dark:text-emerald-400/80">
               E-mail profissional
             </label>
             <Input
@@ -90,7 +104,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigateRegister }) 
 
           <div className="space-y-1.5 text-left">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-semibold uppercase tracking-wider text-emerald-900/70">
+              <label className="text-xs font-semibold uppercase tracking-wider text-emerald-900/70 dark:text-emerald-400/80">
                 Senha
               </label>
             </div>
@@ -122,12 +136,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onNavigateRegister }) 
         </form>
 
         {/* Footer Navigation */}
-        <div className="mt-8 pt-6 border-t border-emerald-50 text-center text-sm text-emerald-800/80">
+        <div className="mt-8 pt-6 border-t border-emerald-50 dark:border-slate-800 text-center text-sm text-emerald-800/80 dark:text-slate-400">
           <span>Não tem conta? </span>
           <button
             type="button"
             onClick={onNavigateRegister}
-            className="font-semibold text-emerald-600 hover:text-emerald-700 hover:underline cursor-pointer inline-flex items-center gap-1 ml-1"
+            className="font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:underline cursor-pointer inline-flex items-center gap-1 ml-1"
           >
             Cadastre-se
           </button>

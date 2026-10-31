@@ -7,12 +7,14 @@ import { PacientesScreen } from '@/components/PacientesScreen';
 import { Sidebar, type NavItem } from '@/components/Sidebar';
 import { Sparkles } from 'lucide-react';
 import './index.css';
+import { ThemeProvider } from '@/context/ThemeContext';
 
 function MainApp() {
   const { session, isLoading } = useAuth();
   const [authView, setAuthView] = useState<'login' | 'register'>('login');
   const [activeMenu, setActiveMenu] = useState<NavItem>('dashboard');
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -38,10 +40,12 @@ function MainApp() {
     };
 
     return (
-      <div className="flex h-screen w-full overflow-hidden bg-slate-50">
-        {/* Fixed Sidebar with NutricaAi logo and menu */}
+      <div className="flex h-screen w-full overflow-hidden bg-slate-50 dark:bg-slate-950">
+        {/* Mobile / Responsive Sidebar Drawer */}
         <Sidebar
           activeItem={activeMenu}
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
           onSelectItem={(item) => {
             setActiveMenu(item);
             if (item === 'pacientes') {
@@ -50,17 +54,19 @@ function MainApp() {
           }}
         />
 
-        {/* Dynamic Main Content */}
-        <div className="flex-1 flex flex-col h-full overflow-hidden">
+        {/* Dynamic Main Content with Mobile Header */}
+        <div className="flex-1 flex flex-col h-full overflow-hidden min-w-0">
           {activeMenu === 'dashboard' ? (
             <DashboardScreen
               onNavigateToPacientes={handleNavigateToPacientes}
               onSelectPaciente={handleSelectPaciente}
+              onToggleMenu={() => setSidebarOpen(true)}
             />
           ) : (
             <PacientesScreen
               selectedPacienteId={selectedPatientId}
               onClearSelectedPaciente={() => setSelectedPatientId(null)}
+              onToggleMenu={() => setSidebarOpen(true)}
             />
           )}
         </div>
@@ -78,9 +84,11 @@ function MainApp() {
 
 export function App() {
   return (
-    <AuthProvider>
-      <MainApp />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <MainApp />
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

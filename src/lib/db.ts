@@ -423,3 +423,127 @@ export async function fetchPacienteComConsultas(pacienteId: string, nutricionist
     consultas: consultasResult,
   };
 }
+
+/**
+ * Creates a new consultation for a patient
+ */
+export async function createConsulta(data: {
+  paciente_id: string;
+  data_consulta: string;
+  peso?: number | null;
+  cintura?: number | null;
+  quadril?: number | null;
+  percentual_gordura?: number | null;
+  observacoes?: string | null;
+  proximo_retorno?: string | null;
+}): Promise<Consulta> {
+  const result = await sql.query(
+    `INSERT INTO consultas (
+       paciente_id,
+       data_consulta,
+       peso,
+       cintura,
+       quadril,
+       percentual_gordura,
+       observacoes,
+       proximo_retorno
+     )
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+     RETURNING 
+       id,
+       paciente_id,
+       TO_CHAR(data_consulta, 'YYYY-MM-DD') AS data_consulta,
+       peso,
+       cintura,
+       quadril,
+       percentual_gordura,
+       observacoes,
+       TO_CHAR(proximo_retorno, 'YYYY-MM-DD') AS proximo_retorno,
+       created_at`,
+    [
+      data.paciente_id,
+      data.data_consulta,
+      data.peso || null,
+      data.cintura || null,
+      data.quadril || null,
+      data.percentual_gordura || null,
+      data.observacoes || null,
+      data.proximo_retorno || null,
+    ]
+  ) as Consulta[];
+
+  if (!result || result.length === 0) {
+    throw new Error('Falha ao cadastrar consulta.');
+  }
+
+  return result[0];
+}
+
+export interface RefeicoesDia {
+  cafe_da_manha: string[];
+  lanche_manha: string[];
+  almoco: string[];
+  lanche_tarde: string[];
+  jantar: string[];
+}
+
+export interface DiaPlano {
+  dia: string;
+  refeicoes: RefeicoesDia;
+}
+
+export interface ConteudoPlanoAlimentar {
+  plano_semanal: DiaPlano[];
+}
+
+export interface PlanoAlimentar {
+  id: string;
+  paciente_id: string;
+  conteudo: ConteudoPlanoAlimentar;
+  created_at: string;
+}
+
+/**
+ * Fetches all dietary plans for a patient, ordered by creation date desc
+ */
+export async function fetchPlanosAlimentares(pacienteId: string): Promise<PlanoAlimentar[]> {
+  const result = await sql.query(
+    `SELECT 
+       id, 
+       paciente_id, 
+       conteudo, 
+       TO_CHAR(created_at, 'YYYY-MM-DD HH24:MI:SS') as created_at
+     FROM planos_alimentares
+     WHERE paciente_id = $1
+     ORDER BY created_at DESC`,
+    [pacienteId]
+  ) as PlanoAlimentar[];
+
+  return result || [];
+}
+
+/**
+ * Saves a new dietary plan for a patient
+ */
+export async function createPlanoAlimentar(
+  pacienteId: string,
+  conteudo: ConteudoPlanoAlimentar
+): Promise<PlanoAlimentar> {
+  const result = await sql.query(
+    `INSERT INTO planos_alimentares (paciente_id, conteudo)
+     VALUES ($1, $2)
+     RETURNING 
+       id, 
+       paciente_id, 
+       conteudo, 
+       TO_CHAR(created_at, 'YYYY-MM-DD HH24:MI:SS') as created_at`,
+    [pacienteId, JSON.stringify(conteudo)]
+  ) as PlanoAlimentar[];
+
+  if (!result || result.length === 0) {
+    throw new Error('Falha ao persistir plano alimentar.');
+  }
+
+  return result[0];
+}
+
